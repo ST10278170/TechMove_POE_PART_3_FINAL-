@@ -1,0 +1,107 @@
+﻿@model TechMove.GLMS.API.Models.ServiceRequest
+@using TechMove.GLMS.API.Models.Enums
+
+@{
+    ViewData["Title"] = "Edit Service Request";
+}
+
+<div class="row justify-content-center mt-4">
+    <div class="col-md-8">
+
+        <h3 class="mb-3">Edit Service Request</h3>
+        <hr />
+
+        <form asp-action="Edit" method="post">
+            @Html.AntiForgeryToken()
+
+            <div asp-validation-summary="All" class="alert alert-danger"></div>
+
+            <!-- Hidden Fields -->
+            <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="CreatedAt" />
+
+            <!-- Contract Dropdown -->
+            <div class="form-group mb-3">
+                <label asp-for="ContractId" class="form-label">Contract</label>
+                <select asp-for="ContractId"
+                        asp-items="ViewBag.Contracts"
+                        class="form-control">
+                    <option value="">-- Select Contract --</option>
+                </select>
+                <span asp-validation-for="ContractId" class="text-danger"></span>
+            </div>
+
+            <!-- Description -->
+            <div class="form-group mb-3">
+                <label asp-for="Description" class="form-label"></label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+
+            <!-- Status -->
+            <div class="form-group mb-3">
+                <label asp-for="Status" class="form-label"></label>
+                <select asp-for="Status"
+                        asp-items="ViewBag.Status"
+                        class="form-control">
+                </select>
+                <span asp-validation-for="Status" class="text-danger"></span>
+            </div>
+
+            <!-- Cost USD -->
+            <div class="form-group mb-3">
+                <label asp-for="CostUSD" class="form-label">Cost (USD)</label>
+                <input asp-for="CostUSD"
+                       id="usdInput"
+                       type="number"
+                       step="0.01"
+                       class="form-control" />
+                <span asp-validation-for="CostUSD" class="text-danger"></span>
+            </div>
+
+            <!-- Cost ZAR (auto-calculated) -->
+            <div class="form-group mb-3">
+                <label asp-for="CostZAR" class="form-label">Cost (ZAR)</label>
+                <input asp-for="CostZAR"
+                       id="zarOutput"
+                       class="form-control"
+                       readonly />
+                <span asp-validation-for="CostZAR" class="text-danger"></span>
+            </div>
+
+            <!-- Submit -->
+            <div class="form-group mt-3">
+                <button type="submit" class="btn btn-success">Save Changes</button>
+                <a asp-action="Index" class="btn btn-secondary ms-2">Cancel</a>
+            </div>
+
+        </form>
+
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        document.getElementById("usdInput").addEventListener("input", async function () {
+            let usd = parseFloat(this.value);
+            if (!usd) {
+                document.getElementById("zarOutput").value = "";
+                return;
+            }
+
+            try {
+                let response = await fetch("https://api.exchangerate-api.com/v4/latest/USD");
+                let data = await response.json();
+                let rate = data.rates["ZAR"];
+
+                document.getElementById("zarOutput").value = (usd * rate).toFixed(2);
+            } catch {
+                document.getElementById("zarOutput").value = "Error";
+            }
+        });
+    </script>
+}

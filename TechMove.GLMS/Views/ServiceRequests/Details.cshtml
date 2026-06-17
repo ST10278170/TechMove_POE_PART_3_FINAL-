@@ -1,0 +1,48 @@
+﻿@model TechMove.GLMS.API.Models.ServiceRequest
+
+@{
+    ViewData["Title"] = "Service Request Details";
+}
+
+<h2>Service Request Details</h2>
+<hr />
+
+<div class="card mb-4">
+    <div class="card-body">
+
+        <h4 class="mb-3">Request #@Model.Id</h4>
+
+        <!-- Contract -->
+        <p>
+            <strong>Contract ID:</strong> @Model.ContractId
+        </p>
+
+        <!-- Description -->
+        <p><strong>Description:</strong> @Model.Description</p>
+
+        <!-- Status -->
+        <p><strong>Status:</strong> @Model.Status</p>
+
+        <!-- Costs -->
+        <p><strong>Cost (USD):</strong> $@Model.CostUSD</p>
+        <p><strong>Cost (ZAR):</strong> R @Model.CostZAR</p>
+
+        <!-- Created -->
+        <p><strong>Created At:</strong> @Model.CreatedAt.ToString("yyyy-MM-dd HH:mm")</p>
+
+        <!-- Completed -->
+        @if (Model.CompletedAt != null)
+        {
+            <p><strong>Completed At:</strong> @Model.CompletedAt?.ToString("yyyy-MM-dd HH:mm")</p>
+        }
+        else
+        {
+            <p><strong>Completed At:</strong> <span class="text-muted">Not completed</span></p>
+        }
+
+    </div>
+</div>
+
+<a asp-action="Index" class="btn btn-secondary">Back to List</a>
+<a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning ms-2">Edit</a>
+<a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger ms-2">Delete</a>

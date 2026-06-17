@@ -1,0 +1,43 @@
+﻿@model TechMove.GLMS.API.Models.Client
+
+
+@{
+    ViewData["Title"] = "Delete Client";
+}
+
+<h2 class="text-danger">Delete Client</h2>
+<hr />
+
+<div class="alert alert-warning">
+    <strong>Warning:</strong> You are about to permanently delete this client.
+    <br />
+    This action cannot be undone.
+</div>
+
+<div class="card mb-4">
+    <div class="card-body">
+
+        <h4 class="mb-3">@Model.Name</h4>
+
+        <p><strong>Contact Person:</strong> @Model.ContactPerson</p>
+        <p><strong>Email:</strong> @Model.Email</p>
+        <p><strong>Phone:</strong> @Model.Phone</p>
+        <p><strong>Region:</strong> @Model.Region</p>
+        <p><strong>Address:</strong> @Model.Address</p>
+
+        <p><strong>Company Registration Number:</strong> @Model.CompanyRegistrationNumber</p>
+        <p><strong>VAT Number:</strong> @Model.VATNumber</p>
+
+        @if (!string.IsNullOrWhiteSpace(Model.Notes))
+        {
+            <p><strong>Notes:</strong> @Model.Notes</p>
+        }
+    </div>
+</div>
+
+<form asp-action="Delete" method="post" class="mt-4">
+    <input type="hidden" asp-for="Id" />
+
+    <button type="submit" class="btn btn-danger">Confirm Delete</button>
+    <a asp-action="Index" class="btn btn-secondary ms-2">Cancel</a>
+</form>

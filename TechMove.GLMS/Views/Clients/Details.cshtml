@@ -1,0 +1,31 @@
+﻿@model TechMove.GLMS.API.Models.Client
+
+@{
+    ViewData["Title"] = "Client Details";
+}
+
+<h2>Client Details</h2>
+<hr />
+
+<div class="card mb-4">
+    <div class="card-body">
+
+        <h4 class="mb-3">@Model.Name</h4>
+
+        <p><strong>Contact Person:</strong> @Model.ContactPerson</p>
+        <p><strong>Email:</strong> @Model.Email</p>
+        <p><strong>Phone:</strong> @Model.Phone</p>
+        <p><strong>Region:</strong> @Model.Region</p>
+        <p><strong>Address:</strong> @Model.Address</p>
+
+        <p><strong>Company Registration Number:</strong> @Model.CompanyRegistrationNumber</p>
+        <p><strong>VAT Number:</strong> @Model.VATNumber</p>
+
+        @if (!string.IsNullOrWhiteSpace(Model.Notes))
+        {
+            <p><strong>Notes:</strong> @Model.Notes</p>
+        }
+    </div>
+</div>
+
+<a asp-action="Index" class="btn btn-secondary mt-3">Back to List</a>

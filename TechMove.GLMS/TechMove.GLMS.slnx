@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="../TechMove.GLMS.API/TechMove.GLMS.API.csproj" />
+  <Project Path="../TechMove.GLMS.Tests/TechMove.GLMS.Tests.csproj" Id="d3a6c77b-1aa1-4c1b-9eb2-7133ccbf97ea" />
+  <Project Path="TechMove.GLMS.csproj" />
+</Solution>

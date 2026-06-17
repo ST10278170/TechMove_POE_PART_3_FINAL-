@@ -1,0 +1,51 @@
+﻿@model TechMove.GLMS.API.Models.Contract
+
+@{
+    ViewData["Title"] = "Contract Details";
+}
+
+<h2>Contract Details</h2>
+<hr />
+
+<div class="card mb-4">
+    <div class="card-body">
+
+        <h4 class="mb-3">Contract @Model.ContractNumber</h4>
+
+        <p><strong>Client ID:</strong> @Model.ClientId</p>
+        <p><strong>Status:</strong> @Model.Status</p>
+        <p><strong>Service Level:</strong> @Model.ServiceLevel</p>
+
+        <p><strong>Start Date:</strong> @Model.StartDate.ToShortDateString()</p>
+        <p><strong>End Date:</strong> @Model.EndDate.ToShortDateString()</p>
+
+        <p><strong>Base Rate:</strong> R @Model.BaseRate</p>
+        <p><strong>Penalty Rate:</strong> R @Model.PenaltyRate</p>
+
+        <p><strong>Created At:</strong> @Model.CreatedAt.ToString("yyyy-MM-dd HH:mm")</p>
+
+        @if (Model.UpdatedAt != null)
+        {
+            <p><strong>Last Updated:</strong> @Model.UpdatedAt?.ToString("yyyy-MM-dd HH:mm")</p>
+        }
+
+        <hr />
+
+        <!-- PDF Download -->
+        @if (!string.IsNullOrEmpty(Model.SignedAgreementPath))
+        {
+            <p>
+                <a class="btn btn-primary" href="/Contracts/Download/@Model.Id">
+                    Download Signed Agreement (PDF)
+                </a>
+            </p>
+        }
+        else
+        {
+            <p><em>No signed agreement uploaded.</em></p>
+        }
+
+    </div>
+</div>
+
+<a asp-action="Index" class="btn btn-secondary mt-3">Back to List</a>

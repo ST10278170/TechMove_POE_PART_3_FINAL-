@@ -1,0 +1,48 @@
+﻿@model TechMove.GLMS.API.Models.ServiceRequest
+
+@{
+    ViewData["Title"] = "Delete Service Request";
+}
+
+<h2 class="text-danger">Delete Service Request</h2>
+<hr />
+
+<div class="alert alert-warning">
+    <strong>Warning:</strong> You are about to permanently delete this service request.
+    <br />
+    This action cannot be undone.
+</div>
+
+<div class="card mb-4">
+    <div class="card-body">
+
+        <h4 class="mb-3">Request #@Model.Id</h4>
+
+        <p><strong>Contract ID:</strong> @Model.ContractId</p>
+        <p><strong>Description:</strong> @Model.Description</p>
+
+        <p><strong>Status:</strong> @Model.Status</p>
+
+        <p><strong>Cost (USD):</strong> $@Model.CostUSD</p>
+        <p><strong>Cost (ZAR):</strong> R @Model.CostZAR</p>
+
+        <p><strong>Created At:</strong> @Model.CreatedAt.ToString("yyyy-MM-dd HH:mm")</p>
+
+        @if (Model.CompletedAt != null)
+        {
+            <p><strong>Completed At:</strong> @Model.CompletedAt?.ToString("yyyy-MM-dd HH:mm")</p>
+        }
+        else
+        {
+            <p><strong>Completed At:</strong> <span class="text-muted">Not completed</span></p>
+        }
+
+    </div>
+</div>
+
+<form asp-action="Delete" method="post">
+    <input type="hidden" asp-for="Id" />
+
+    <button type="submit" class="btn btn-danger">Confirm Delete</button>
+    <a asp-action="Index" class="btn btn-secondary ms-2">Cancel</a>
+</form>

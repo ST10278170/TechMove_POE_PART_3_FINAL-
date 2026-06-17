@@ -1,0 +1,189 @@
+﻿@model TechMove.GLMS.ViewModels.DashboardViewModel
+
+
+@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<div class="container mt-4">
+    <h2 class="mb-4">System Dashboard</h2>
+
+    <!-- KPI Tiles -->
+    <div class="row">
+
+        <div class="col-md-4 mb-3">
+            <div class="card text-white bg-primary shadow">
+                <div class="card-body">
+                    <h5 class="card-title">Total Clients</h5>
+                    <h2>@Model.TotalClients</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-3">
+            <div class="card text-white bg-dark shadow">
+                <div class="card-body">
+                    <h5 class="card-title">Total Contracts</h5>
+                    <h2>@Model.TotalContracts</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-3">
+            <div class="card text-white bg-success shadow">
+                <div class="card-body">
+                    <h5 class="card-title">Active Contracts</h5>
+                    <h2>@Model.ActiveContracts</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-3">
+            <div class="card text-white bg-danger shadow">
+                <div class="card-body">
+                    <h5 class="card-title">Expired Contracts</h5>
+                    <h2>@Model.ExpiredContracts</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-3">
+            <div class="card text-white bg-warning shadow">
+                <div class="card-body">
+                    <h5 class="card-title">On Hold Contracts</h5>
+                    <h2>@Model.OnHoldContracts</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-3">
+            <div class="card text-white bg-info shadow">
+                <div class="card-body">
+                    <h5 class="card-title">Total Service Requests</h5>
+                    <h2>@Model.TotalServiceRequests</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 mb-3">
+            <div class="card text-white bg-secondary shadow">
+                <div class="card-body">
+                    <h5 class="card-title">Pending Requests</h5>
+                    <h2>@Model.PendingRequests</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 mb-3">
+            <div class="card text-white bg-success shadow">
+                <div class="card-body">
+                    <h5 class="card-title">Completed Requests</h5>
+                    <h2>@Model.CompletedRequests</h2>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Monthly Charts -->
+    <h3 class="mt-5">Monthly Trends</h3>
+
+    <div class="row">
+        <div class="col-md-6">
+            <canvas id="contractsChart"></canvas>
+        </div>
+        <div class="col-md-6">
+            <canvas id="requestsChart"></canvas>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        const labels = @Html.Raw(Json.Serialize(Model.Last6MonthsLabels));
+        const contractsData = @Html.Raw(Json.Serialize(Model.ContractsPerMonth));
+        const requestsData = @Html.Raw(Json.Serialize(Model.RequestsPerMonth));
+
+        new Chart(document.getElementById('contractsChart'), {
+        type: 'line',
+        data: {
+        labels: labels,
+        datasets: [{
+        label: 'Contracts Created',
+        data: contractsData,
+        borderColor: 'blue',
+        borderWidth: 2,
+        fill: false
+        }]
+        }
+        });
+
+        new Chart(document.getElementById('requestsChart'), {
+        type: 'line',
+        data: {
+        labels: labels,
+        datasets: [{
+        label: 'Service Requests',
+        data: requestsData,
+        borderColor: 'green',
+        borderWidth: 2,
+        fill: false
+        }]
+        }
+        });
+    </script>
+
+    <!-- Recent Activity -->
+    <h3 class="mt-5">Recent Service Requests</h3>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Contract</th>
+                <th>Description</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var r in Model.RecentRequests)
+            {
+                <tr>
+                    <td>@r.ContractId</td>
+                    <td>@r.Description</td>
+                    <td>@r.Status</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <!-- Expiring Contracts -->
+    <h3 class="mt-5 text-danger">Contracts Expiring Soon</h3>
+
+    @if (Model.ExpiringContracts.Any())
+    {
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Client ID</th>
+                    <th>End Date</th>
+                    <th>Service Level</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var c in Model.ExpiringContracts)
+                {
+                    <tr>
+                        <td>@c.ClientId</td>
+                        <td>@c.EndDate.ToShortDateString()</td>
+                        <td>@c.ServiceLevel</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <p>No contracts expiring in the next 30 days.</p>
+    }
+
+</div>

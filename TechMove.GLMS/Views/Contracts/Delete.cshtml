@@ -1,0 +1,58 @@
+﻿@model TechMove.GLMS.API.Models.Contract
+
+@{
+    ViewData["Title"] = "Delete Contract";
+}
+
+<h2 class="text-danger">Delete Contract</h2>
+<hr />
+
+<div class="alert alert-warning">
+    <strong>Warning:</strong> You are about to permanently delete this contract.
+    <br />
+    This action cannot be undone.
+</div>
+
+<div class="card mb-4">
+    <div class="card-body">
+
+        <h4 class="mb-3">Contract @Model.ContractNumber</h4>
+
+        <p><strong>Client ID:</strong> @Model.ClientId</p>
+        <p><strong>Status:</strong> @Model.Status</p>
+        <p><strong>Service Level:</strong> @Model.ServiceLevel</p>
+
+        <p><strong>Start Date:</strong> @Model.StartDate.ToShortDateString()</p>
+        <p><strong>End Date:</strong> @Model.EndDate.ToShortDateString()</p>
+
+        <p><strong>Base Rate:</strong> R @Model.BaseRate</p>
+        <p><strong>Penalty Rate:</strong> R @Model.PenaltyRate</p>
+
+        <p><strong>Created At:</strong> @Model.CreatedAt.ToString("yyyy-MM-dd HH:mm")</p>
+
+        @if (Model.UpdatedAt != null)
+        {
+            <p><strong>Last Updated:</strong> @Model.UpdatedAt?.ToString("yyyy-MM-dd HH:mm")</p>
+        }
+
+        <hr />
+
+        <!-- PDF Indicator -->
+        @if (!string.IsNullOrEmpty(Model.SignedAgreementPath))
+        {
+            <p><strong>Signed Agreement:</strong> <span class="text-success">Uploaded</span></p>
+        }
+        else
+        {
+            <p><strong>Signed Agreement:</strong> <span class="text-muted">None</span></p>
+        }
+
+    </div>
+</div>
+
+<form asp-action="Delete" method="post" class="mt-4">
+    <input type="hidden" asp-for="Id" />
+
+    <button type="submit" class="btn btn-danger">Confirm Delete</button>
+    <a asp-action="Index" class="btn btn-secondary ms-2">Cancel</a>
+</form>
