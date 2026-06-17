@@ -1,0 +1,43 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net8.0-windows</TargetFramework>
+		<LangVersion>latest</LangVersion>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<IsPackable>false</IsPackable>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="8.0.0" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.0" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="8.0.0" />
+		<PackageReference Include="Moq" Version="4.20.69" />
+		<PackageReference Include="MSTest" Version="4.0.2" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Using Include="Microsoft.VisualStudio.TestTools.UnitTesting" />
+	</ItemGroup>
+
+	<!-- Prevent auto-generated assembly attribute files from being compiled -->
+	<ItemGroup>
+		<Compile Remove="obj\**\*.cs" />
+	</ItemGroup>
+	<ItemGroup>
+	  <EditorConfigFiles Remove="C:\Users\27611\source\repos\TechMove.GLMS.Tests\.editorconfig" />
+	</ItemGroup>
+	<ItemGroup>
+	  <None Include="C:\Users\27611\source\repos\TechMove.GLMS.Tests\.editorconfig" />
+	</ItemGroup>
+	<ItemGroup>
+	  <ProjectReference Include="..\TechMove.GLMS.API\TechMove.GLMS.API.csproj" />
+	  <ProjectReference Include="..\TechMove.GLMS\TechMove.GLMS.csproj" />
+	</ItemGroup>
+	<ItemGroup>
+	  <Folder Include="Integration\" />
+	  <Folder Include="Models\" />
+	  <Folder Include="Services\" />
+	</ItemGroup>
+
+</Project>
