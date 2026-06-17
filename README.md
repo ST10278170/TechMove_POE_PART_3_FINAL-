@@ -1,4 +1,8 @@
+YouTube Video Link - 
+
+
 TechMove – POE Part 3
+
 This repository contains the final implementation for TechMove, a multi‑project .NET solution developed for POE Part 3. The system includes an MVC front‑end, a Web API, and a full automated testing suite. The goal of the project is to demonstrate clean architecture, API integration, automated testing, and DevOps‑ready structure.
 
 Project Structure
